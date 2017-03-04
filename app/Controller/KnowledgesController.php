@@ -16,12 +16,16 @@ class KnowledgesController extends AppController {
       $post_param = $this->request->data;
       $upload_dir = "/Applications/MAMP/htdocs/knowledge_files/" . $post_param["Knowledge"]["task_id"] . "/"; 
       $this->_createDirectory($upload_dir);
-      if (is_uploaded_file($post_param["Knowledge"]["file"]["tmp_name"])) {
-        if (move_uploaded_file($post_param["Knowledge"]["file"]["tmp_name"], $upload_dir . $post_param["Knowledge"]["file"]["name"])) {
-          echo "Success";
-        } else {
-          echo "Failed";
-        }
+      $this->_saveFile($upload_dir, $post_param["Knowledge"]["file"]["tmp_name"], $post_param["Knowledge"]["file"]["name"]);
+    }
+  }
+
+  protected function _saveFile($upload_dir, $tmp_name, $file_name){
+    if (is_uploaded_file($tmp_name)) {
+      if (move_uploaded_file($tmp_name, $upload_dir . $file_name)) {
+        echo "Success";
+      } else {
+        echo "Failed";
       }
     }
   }
