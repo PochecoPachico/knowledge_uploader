@@ -17,18 +17,6 @@ var load_file_list = function(task_id) {
   });
 }
 
-var constructData = function(files) {
-  var fd = new FormData();
-  var uploadData = {
-    file: files[0],
-    knowledge_id: knowledge_id
-  }; 
-  console.debug(uploadData);
-  fd.append("file", files[0]);
-  // fd.append("knowledge", uploadData);
-  return fd;
-}
-
 var sendToServer = function(files) {
   var fd = new FormData();
 
@@ -43,7 +31,6 @@ var sendToServer = function(files) {
     contentType: false,
     data: fd,
     success: function(msg) {
-      console.debug(msg);
       load_file_list(task_id);
     }
   });
