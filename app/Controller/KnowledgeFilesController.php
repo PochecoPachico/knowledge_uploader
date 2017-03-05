@@ -1,5 +1,7 @@
 <?php
 class KnowledgeFilesController extends AppController {
+
+  // TODO: 重複ファイルの処理
   public function register() {
     $this->autoRender = false;
     if ($this->request->is("post")) {
@@ -14,7 +16,6 @@ class KnowledgeFilesController extends AppController {
       "file_name" => $post_param["KnowledgeFile"]["file"]["name"],
       "size" => $post_param["KnowledgeFile"]["file"]["size"],
     );
-    debug($formatted_data);
     if ($this->KnowledgeFile->save($formatted_data)) {
         echo "Success";
     } else {
