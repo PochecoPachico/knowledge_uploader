@@ -1,0 +1,13 @@
+#drop_area {
+  display: table-cell;
+  border-style: dotted;
+  border-color: #008000;
+  width: 300px;
+  height: 100px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+#drop_area strong {
+  color: #000;
+}

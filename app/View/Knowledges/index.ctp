@@ -3,19 +3,12 @@
   integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
   crossorigin="anonymous"></script>
 <?php echo $this->Html->css("semantic.min"); ?>
+<?php echo $this->Html->css("knowledge"); ?>
 <?php echo $this->Html->script("semantic.min"); ?>
 
-<?php
-echo $this->Form->create("KnowledgeFile", array(
-  "url" => array("controller" => "KnowledgeFiles", "action" => "register"),
-  "type" => "file"));
-echo $this->Form->hidden("task_id", array("value" => $data["Knowledge"]["task_id"]));
-echo $this->Form->hidden("knowledge_id", array("value" => $data["Knowledge"]["id"]));
-echo $this->Form->input("file", array("type" => "file"));
-echo $this->Form->end("submit");
-?>
+<div id="drop_area"><strong>Drag & Drop</strong></div>
 <div id="fileList"></div>
 
 <?php echo $this->html->script("knowledge"); ?>
 
-<script>load_file_list("<?php echo $data["Knowledge"]["task_id"]; ?>")</script>
+<script>knowledge_init("<?php echo $data["Knowledge"]["task_id"]; ?>", <?php echo $data["Knowledge"]["id"]; ?>)</script>
