@@ -1,7 +1,6 @@
 #drop_area {
   display: table-cell;
-  border-style: dotted;
-  border-color: #008000;
+  border: 2px dotted #008000;
   width: 300px;
   height: 100px;
   text-align: center;

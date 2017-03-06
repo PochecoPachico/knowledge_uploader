@@ -48,12 +48,12 @@ $(document).on("dragenter", function(e) {
 $(document).on("dragover", function(e) {
   e.stopPropagation();
   e.preventDefault();
-  $(this).css('border', '2px solid #008000');
+  $(this).css('border', '2px dotted #008000');
 });
 
 $(document).on("drop", function(e) {
   e.preventDefault();
-  $(this).css('border', '2px solid #008000');
+  $(this).css('border', '2px dotted #008000');
 });
 
 // drop_areaにドロップした時
@@ -73,4 +73,17 @@ $("#drop_area").on("drop", function(e) {
   var files = e.originalEvent.dataTransfer.files;
   e.preventDefault();
   sendToServer(files);
+  $(this).css('border', '2px dotted #008000');
 });
+
+$("#drop_area").on("dragleave", function(e) {
+  e.preventDefault();
+  $(this).css('border', '2px dotted #008000');
+});
+
+$("#drop_area").on("dragend", function(e) {
+  e.preventDefault();
+  $(this).css('border', '2px dotted #008000');
+});
+
+
