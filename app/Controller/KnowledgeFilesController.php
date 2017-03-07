@@ -25,13 +25,36 @@ class KnowledgeFilesController extends AppController {
     }
   }
 
-  protected function _saveFile($upload_dir, $tmp_name, $file_name){
-    if (is_uploaded_file($tmp_name)) {
-      if (move_uploaded_file($tmp_name, $upload_dir . $file_name)) {
+  public function delete() {
+    $this->autoRender = false;
+    if ($this->request->is("post")) {
+      $post_param = $this->request->data;
+      $upload_dir = "/Applications/MAMP/htdocs/knowledge_files/" . $post_param["task_id"] . "/"; 
+      $this->_deleteFile($upload_dir, $post_param["file_name"]);
+      if ($this->KnowledgeFile->delete($post_param["id"])) {
         echo "Success";
       } else {
         echo "Failed";
       }
+    }
+  }
+
+  protected function _saveFile($upload_dir, $tmp_name, $file_name){
+    if (is_uploaded_file($tmp_name)) {
+      if (move_uploaded_file($tmp_name, $upload_dir . $file_name)) {
+        chmod($upload_dir . $file_name, 0644);
+        echo "Success";
+      } else {
+        echo "Failed";
+      }
+    }
+  }
+
+  protected function _deleteFile($upload_dir, $file_name) {
+    if (unlink($upload_dir . $file_name)) {
+      echo "Success";
+    } else {
+      echo "Failed";
     }
   }
 

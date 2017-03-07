@@ -47,6 +47,22 @@ var sendToServer = function(files) {
   }
 }
 
+var delete_file = function(id, file_name) {
+  var data = {
+    id: id.toString(),
+    file_name: file_name,
+    task_id: task_id
+  };
+  $.ajax({
+    url: "/groupware/KnowledgeFiles/delete",
+    type: "POST",
+    data: data,
+    success: function(msg) {
+      load_file_list(task_id);
+    }
+  });
+}
+
 // ページ全体のドラッグアンドドロップイベントを無効にする
 $(document).on("dragenter", function(e) {
   // これ以上イベントを伝えない

@@ -6,8 +6,9 @@ class KnowledgesController extends AppController {
   
   public function fileList($id) {
     $this->autoLayout = false;
-    $file_list = $this->_fetchKnowledgeById($id)["KnowledgeFile"];
-    $this->set("file_list", $file_list);
+    $data = $this->_fetchKnowledgeById($id);
+    $this->set("file_list", $data["KnowledgeFile"]);
+    $this->set("task_id", $data["Knowledge"]["task_id"]);
   }
 
   protected function _fetchKnowledgeById($task_id) {
