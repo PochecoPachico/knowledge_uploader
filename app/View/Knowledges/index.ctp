@@ -11,4 +11,14 @@
 
 <?php echo $this->html->script("knowledge"); ?>
 
-<script>knowledge_init("<?php echo $data["Knowledge"]["task_id"]; ?>", <?php echo $data["Knowledge"]["id"]; ?>)</script>
+<script>
+  knowledge_init(
+    "<?php echo $data["Knowledge"]["task_id"]; ?>",
+    <?php echo $data["Knowledge"]["id"]; ?>,
+    [
+      <?php foreach ($data["KnowledgeFile"] as $file) { ?>
+      "<?php echo $file["file_name"]; ?>",
+      <?php } ?>
+    ]
+  )
+</script>

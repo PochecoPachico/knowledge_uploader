@@ -1,9 +1,11 @@
 var task_id;
 var knowledge_id;
+var file_list;
 
-var knowledge_init = function(t_id, k_id) {
+var knowledge_init = function(t_id, k_id, f_list) {
   task_id = t_id;
   knowledge_id = k_id;
+  file_list = f_list;
   load_file_list(task_id);
 }
 
@@ -17,23 +19,32 @@ var load_file_list = function(task_id) {
   });
 }
 
+var check_duplicated_file = function(file_name) {
+  return !(file_list.indexOf(file_name) == -1);
+}
+
 var sendToServer = function(files) {
   var fd = new FormData();
 
-  fd.append("knowledge_id", knowledge_id); 
-  fd.append("task_id", task_id); 
-  fd.append("file", files[0]); 
-
-  $.ajax({
-    url: "/groupware/KnowledgeFiles/register",
-    type: "POST",
-    processData: false,
-    contentType: false,
-    data: fd,
-    success: function(msg) {
-      load_file_list(task_id);
+  for (var i = 0; i < files.length; i++) {
+    fd.append("knowledge_id", knowledge_id); 
+    fd.append("task_id", task_id); 
+    fd.append("file", files[i]); 
+    if(check_duplicated_file(files[i].name)){
+      alert("ファイル名が重複しています : " + files[i].name);
+    } else {
+      $.ajax({
+        url: "/groupware/KnowledgeFiles/register",
+        type: "POST",
+        processData: false,
+        contentType: false,
+        data: fd,
+        success: function(msg) {
+          load_file_list(task_id);
+        }
+      });
     }
-  });
+  }
 }
 
 // ページ全体のドラッグアンドドロップイベントを無効にする
