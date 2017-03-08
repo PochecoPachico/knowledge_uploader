@@ -43,6 +43,8 @@ var send_to_server = function(files) {
           load_file_list(task_id);
         }
       });
+      // 重複チェック用のファイル名の配列を更新
+      file_list.push(files[i].name);
     }
   }
 }
@@ -62,7 +64,18 @@ var delete_file = function(id, file_name) {
         load_file_list(task_id);
       }
     });
+    // 重複チェック用のファイル名の配列を更新
+    file_list = remove_file_name(file_list, file_name);
   }
+}
+
+var remove_file_name = function(file_name_list, name) {
+  remove_file_list = [];
+  for (var i = 0; i < file_name_list.length; i++) {
+    if (file_name_list[i] == name) continue;
+    remove_file_list.push(file_name_list[i]);
+  } 
+  return remove_file_list;
 }
 
 // ページ全体のドラッグアンドドロップイベントを無効にする
