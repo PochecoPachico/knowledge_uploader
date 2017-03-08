@@ -23,7 +23,7 @@ var check_duplicated_file = function(file_name) {
   return !(file_list.indexOf(file_name) == -1);
 }
 
-var sendToServer = function(files) {
+var send_to_server = function(files) {
   var fd = new FormData();
 
   for (var i = 0; i < files.length; i++) {
@@ -48,19 +48,21 @@ var sendToServer = function(files) {
 }
 
 var delete_file = function(id, file_name) {
-  var data = {
-    id: id.toString(),
-    file_name: file_name,
-    task_id: task_id
-  };
-  $.ajax({
-    url: "/groupware/KnowledgeFiles/delete",
-    type: "POST",
-    data: data,
-    success: function(msg) {
-      load_file_list(task_id);
-    }
-  });
+  if (window.confirm("Delete file : " + file_name)) {
+    var data = {
+      id: id.toString(),
+      file_name: file_name,
+      task_id: task_id
+    };
+    $.ajax({
+      url: "/groupware/KnowledgeFiles/delete",
+      type: "POST",
+      data: data,
+      success: function(msg) {
+        load_file_list(task_id);
+      }
+    });
+  }
 }
 
 // ページ全体のドラッグアンドドロップイベントを無効にする
@@ -99,7 +101,7 @@ $("#drop_area").on("dragover", function(e) {
 $("#drop_area").on("drop", function(e) {
   var files = e.originalEvent.dataTransfer.files;
   e.preventDefault();
-  sendToServer(files);
+  send_to_server(files);
   $(this).css('border', '2px dotted #008000');
 });
 
