@@ -26,6 +26,9 @@ var check_duplicated_file = function(file_name) {
 var send_to_server = function(files) {
   var fd = new FormData();
 
+  // 処理が終了するまで離脱防止
+  prevent_move(true);
+
   for (var i = 0; i < files.length; i++) {
     fd.append("knowledge_id", knowledge_id); 
     fd.append("task_id", task_id); 
@@ -47,10 +50,14 @@ var send_to_server = function(files) {
       file_list.push(files[i].name);
     }
   }
+  // 離脱防止解除
+  prevent_move(false);
 }
 
 var delete_file = function(id, file_name) {
   if (window.confirm("Delete file : " + file_name)) {
+    // ページ離脱防止
+    prevent_move(true);
     var data = {
       id: id.toString(),
       file_name: file_name,
@@ -66,6 +73,7 @@ var delete_file = function(id, file_name) {
     });
     // 重複チェック用のファイル名の配列を更新
     file_list = remove_file_name(file_list, file_name);
+    prevent_move(false);
   }
 }
 
@@ -76,6 +84,17 @@ var remove_file_name = function(file_name_list, name) {
     remove_file_list.push(file_name_list[i]);
   } 
   return remove_file_list;
+}
+
+var prevent_move = function(flag) {
+  if (flag) {
+    $(window).on("beforeunload", function(e) {
+      return "ファイルのアップロードが完了してません\n再読込をしてもよろしいでしょうか?";
+    });
+  } else {
+    $(window).off("beforeunload");
+  }
+  
 }
 
 // ページ全体のドラッグアンドドロップイベントを無効にする
