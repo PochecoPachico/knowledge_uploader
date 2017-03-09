@@ -23,6 +23,25 @@ var check_duplicated_file = function(file_name) {
   return !(file_list.indexOf(file_name) == -1);
 }
 
+var add_progress_bar = function(file_num, file_name) {
+  var progress_bar_content = '<div class="ui indicating progress" id="file_' + file_num + '"><div class="bar"></div><div class="label">' + file_name + ' : <span>0</span>%</div></div>';
+  $("#progress_bar_area").append(progress_bar_content);
+  $("#file_" + file_num).progress({
+    percent: 0
+  });
+}
+
+var update_progress_bar = function(file_num,  percentage) {
+  $("#file_" + file_num).progress({
+    percent: percentage
+  });
+  $("#file_" + file_num + " span").text(percentage);
+}
+
+var delete_progress_bar = function(file_num) {
+  $("#file_" + file_num).remove();
+}
+
 var send_to_server = function(files) {
   var fd = new FormData();
 
@@ -36,8 +55,21 @@ var send_to_server = function(files) {
     if(check_duplicated_file(files[i].name)){
       alert("ファイル名が重複しています : " + files[i].name);
     } else {
+      // プログレスバー表示
+      add_progress_bar(i, files[i].name);
       $.ajax({
         url: "/groupware/KnowledgeFiles/register",
+        xhr: function() {
+          XHR = $.ajaxSettings.xhr();
+          if (XHR.upload) {
+            XHR.upload.addEventListener('progress',
+              function(e) {
+                percentage = parseInt(e.loaded / e.total * 10000) / 100;
+                update_progress_bar(i, percentage);
+              }, false);
+          }
+          return XHR;
+        },
         type: "POST",
         processData: false,
         contentType: false,
@@ -48,6 +80,8 @@ var send_to_server = function(files) {
       });
       // 重複チェック用のファイル名の配列を更新
       file_list.push(files[i].name);
+      // プログレスバー削除
+      delete_progress_bar(i);
     }
   }
   // 離脱防止解除

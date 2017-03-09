@@ -7,6 +7,9 @@
 <?php echo $this->Html->script("semantic.min"); ?>
 
 <div id="drop_area"><strong>Drag & Drop</strong></div>
+
+<div id="progress_bar_area"></div>
+
 <div id="fileList"></div>
 
 <?php echo $this->html->script("knowledge"); ?>

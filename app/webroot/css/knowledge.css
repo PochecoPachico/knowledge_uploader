@@ -1,3 +1,8 @@
+#progress_bar_area {
+  width: 300px;
+  padding: 5px;
+}
+
 #drop_area {
   display: table-cell;
   border: 2px dotted #008000;
